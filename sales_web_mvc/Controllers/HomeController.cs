@@ -13,6 +13,7 @@ namespace sales_web_mvc.Controllers
 
         public IActionResult Privacy()
         {
+            ViewData["Message"] = "A descricao da sua aplicacao";
             return View();
         }
 
