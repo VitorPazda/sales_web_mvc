@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using sales_web_mvc.Data;
+using sales_web_mvc.Services;
 using System.Configuration;
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,7 @@ builder.Services.AddDbContext<sales_web_mvcContext>(options =>
 // Adicionar o SeedingService para popular o bd
 builder.Services.AddScoped<SeedingService>();
 
+builder.Services.AddScoped<SellerService>(); // Classe SellerService
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
