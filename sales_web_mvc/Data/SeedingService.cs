@@ -15,12 +15,12 @@ namespace sales_web_mvc.Data
         public void Seed()
         {
             // Verificar se existe algum dado nas tabelas
-            /*
+            
             if (_context.Department.Any() || _context.Seller.Any() || _context.SalesRecord.Any())
             {
                 return; // bd ja populado
             }
-            */
+            
 
             // Instanciar os dados no bd
 
