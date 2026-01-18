@@ -12,14 +12,27 @@ builder.Services.AddDbContext<sales_web_mvcContext>(options =>
     )
 );
 
+// Adicionar o SeedingService para popular o bd
+builder.Services.AddScoped<SeedingService>();
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+// Aqui, caso o projeto esteja rodando de forma de desenvolvimento,ira chamar o seeding service, se nao, ira apresentar o erro
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+
+    using (var scope = app.Services.CreateScope())
+    {
+        var seedingService = scope.ServiceProvider.GetRequiredService<SeedingService>();
+        seedingService.Seed();
+    }
+}
+else
 {
     app.UseExceptionHandler("/Home/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
