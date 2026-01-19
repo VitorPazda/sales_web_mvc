@@ -15,5 +15,11 @@ namespace sales_web_mvc.Services
             // Retornar todos os vendedores
             return _context.Seller.ToList();
         }
+        // Inserir um novo vendedor no bd
+        public void Insert(Seller obj)
+        {
+            _context.Add(obj);
+            _context.SaveChanges();
+        }
     }
 }
