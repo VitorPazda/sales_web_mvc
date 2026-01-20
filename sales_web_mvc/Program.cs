@@ -18,6 +18,8 @@ builder.Services.AddScoped<SeedingService>();
 
 builder.Services.AddScoped<SellerService>(); // Classe SellerService
 
+builder.Services.AddScoped<DepartmentService>(); // Classe Department Service
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 

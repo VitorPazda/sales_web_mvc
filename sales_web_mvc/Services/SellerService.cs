@@ -1,5 +1,6 @@
 ﻿using sales_web_mvc.Data;
 using sales_web_mvc.Models; // Importar os modelos
+
 namespace sales_web_mvc.Services
 {
     public class SellerService
