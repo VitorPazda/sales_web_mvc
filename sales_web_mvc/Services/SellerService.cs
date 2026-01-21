@@ -1,5 +1,6 @@
 ﻿using sales_web_mvc.Data;
 using sales_web_mvc.Models; // Importar os modelos
+using Microsoft.EntityFrameworkCore;
 
 namespace sales_web_mvc.Services
 {
@@ -26,7 +27,7 @@ namespace sales_web_mvc.Services
         // Encontrar o seller por id
         public Seller FindById(int id)
         {
-            return _context.Seller.FirstOrDefault(obj => obj.Id == id);
+            return _context.Seller.Include(obj => obj.Department).FirstOrDefault(obj => obj.Id == id);
         }
         
         // Remover o seller
