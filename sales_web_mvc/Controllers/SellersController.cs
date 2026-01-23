@@ -2,6 +2,8 @@
 using sales_web_mvc.Services; // Importar os servicos
 using sales_web_mvc.Models;
 using sales_web_mvc.Models.ViewModels;
+using System.Data;
+using sales_web_mvc.Services.Exceptions;
 
 namespace sales_web_mvc.Controllers
 {
@@ -73,6 +75,48 @@ namespace sales_web_mvc.Controllers
             }
 
             return View(objeto);
+        }
+
+        // Abrir a tela de edicao
+        public IActionResult Edit(int? id)
+        {
+            // Verificar se o id e nulo
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var obj = _sellerService.FindById(id.Value);
+            if (obj == null) // Verificar se existe no bd
+            {
+                return NotFound();
+            }
+
+            List<Department> departments = _departmentService.FindAll();
+            SellerFormViewModel viewModel = new SellerFormViewModel { Seller = obj, Departments = departments };
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(int id, Seller seller)
+        {
+            if (id != seller.Id)
+            {
+                return BadRequest(); // Id do seller n pode ser diferente!
+            }
+            try
+            {
+                _sellerService.Update(seller);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (NotFoundException)
+            {
+                return NotFound();
+            }
+            catch (DBConcurrencyException)
+            {
+                return BadRequest();
+            }
         }
     }
 }
