@@ -4,6 +4,7 @@ using sales_web_mvc.Models;
 using sales_web_mvc.Models.ViewModels;
 using System.Data;
 using sales_web_mvc.Services.Exceptions;
+using System.Diagnostics;
 
 namespace sales_web_mvc.Controllers
 {
@@ -41,13 +42,13 @@ namespace sales_web_mvc.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Id nao fornecido" });
             }
 
             var objeto = _sellerService.FindById(id.Value);
             if (objeto == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Id nao encontrado" });
             }
 
             return View(objeto);
@@ -65,13 +66,13 @@ namespace sales_web_mvc.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Id nao fornecido" });
             }
 
             var objeto = _sellerService.FindById(id.Value);
             if (objeto == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Id nao encontrado" });
             }
 
             return View(objeto);
@@ -83,12 +84,12 @@ namespace sales_web_mvc.Controllers
             // Verificar se o id e nulo
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Id nao fornecido" });
             }
             var obj = _sellerService.FindById(id.Value);
             if (obj == null) // Verificar se existe no bd
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Id nao encontrado" });
             }
 
             List<Department> departments = _departmentService.FindAll();
@@ -102,21 +103,27 @@ namespace sales_web_mvc.Controllers
         {
             if (id != seller.Id)
             {
-                return BadRequest(); // Id do seller n pode ser diferente!
+                return RedirectToAction(nameof(Error), new { message = "Id nao corresponde" });
             }
             try
             {
                 _sellerService.Update(seller);
                 return RedirectToAction(nameof(Index));
             }
-            catch (NotFoundException)
+            catch (ApplicationException e)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = e.Message });
             }
-            catch (DBConcurrencyException)
+        }
+        // Para retornar algum erro
+        public IActionResult Error(string message)
+        {
+            var viewModel = new ErrorViewModel
             {
-                return BadRequest();
-            }
+                Message = message,
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+            };
+            return View(viewModel);
         }
     }
 }
