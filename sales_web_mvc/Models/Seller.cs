@@ -5,14 +5,25 @@ namespace sales_web_mvc.Models
     public class Seller
     {
         public int Id { get; set; }
+        
+        [Required(ErrorMessage = "{0} required")]
+        [StringLength(100, MinimumLength = 3, ErrorMessage = "{0} invalido")]
         public string Name { get; set; }
+
+        [Required(ErrorMessage = "{0} required")]
         [DataType(DataType.EmailAddress)]
+        [EmailAddress(ErrorMessage = "Digite um email valido")]
         public string Email { get; set; }
+
         [Display(Name = "Birth Date")]
         [DataType(DataType.Date)]
+        [Required(ErrorMessage = "{0} required")]
         public DateTime BirthDate { get; set; }
+
         [Display(Name = "Base Salary")]
         [DisplayFormat(DataFormatString = "{0:F2}")]
+        [Required(ErrorMessage = "{0} required")]
+        [Range(100.0, 50000.0, ErrorMessage = "{0} deve ser ebtre {1} e {2}")]
         public double BaseSalary { get; set; }
         public Department Department { get; set; }
         public int DepartmentId { get; set; }   
