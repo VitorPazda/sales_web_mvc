@@ -1,8 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Localization; // Localizacao
 using sales_web_mvc.Data;
 using sales_web_mvc.Services;
 using System.Configuration;
+using System.Globalization; // Formatacao de numeros e datas
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Vincular o BD
@@ -12,6 +15,14 @@ builder.Services.AddDbContext<sales_web_mvcContext>(options =>
         new MySqlServerVersion(new Version(8, 0, 34))
     )
 );
+
+var ptBr = new CultureInfo("pt-BR");
+var localizationOptions = new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new RequestCulture(ptBr),
+    SupportedCultures = new List<CultureInfo> { ptBr },
+    SupportedUICultures = new List<CultureInfo> { ptBr }
+};
 
 // Adicionar o SeedingService para popular o bd
 builder.Services.AddScoped<SeedingService>();
