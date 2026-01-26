@@ -26,6 +26,8 @@ namespace sales_web_mvc.Models
         [Range(100.0, 50000.0, ErrorMessage = "{0} deve ser ebtre {1} e {2}")]
         public double BaseSalary { get; set; }
         public Department Department { get; set; }
+
+        [Display(Name = "Department")]
         public int DepartmentId { get; set; }   
         public ICollection<SalesRecord> Sales { get; set; } = new List<SalesRecord>();
 

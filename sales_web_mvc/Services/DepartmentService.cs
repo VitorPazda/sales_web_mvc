@@ -1,5 +1,6 @@
 ﻿using sales_web_mvc.Data;
 using sales_web_mvc.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace sales_web_mvc.Services
 {
@@ -11,10 +12,10 @@ namespace sales_web_mvc.Services
             _context = context;
         }
 
-        // Retornar os departamentos
-        public List<Department> FindAll()
+        // Funcao assincrona
+        public async Task<List<Department>> FindAllAsync()
         {
-            return _context.Department.OrderBy(x => x.Nome).ToList(); // Ordernar por nome
+            return await _context.Department.OrderBy(x => x.Nome).ToListAsync(); // Ordernar por nome
         }
     }
 }
