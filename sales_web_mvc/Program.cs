@@ -31,6 +31,8 @@ builder.Services.AddScoped<SellerService>(); // Classe SellerService
 
 builder.Services.AddScoped<DepartmentService>(); // Classe Department Service
 
+builder.Services.AddScoped<SalesRecordService>(); 
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
